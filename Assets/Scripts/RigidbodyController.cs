@@ -27,11 +27,18 @@ public class RigidbodyController : MonoBehaviour
     {
         var inputDirection = new Vector3(input.x, 0, input.y);
 
+        Vector3 flattenedCameraForward = Camera.main.transform.forward;
+        flattenedCameraForward.y = 0;
+
+        Quaternion cameraRotation = Quaternion.LookRotation(flattenedCameraForward);
+
+        Vector3 cameraLookDirection = cameraRotation * inputDirection;
+
         collider.material = inputDirection.magnitude > 0 ? movingPhysicsMaterial : stoppingPhysicsMaterial;
 
         if (rigidbody.velocity.magnitude < maxSpeed)
         {
-            rigidbody.AddForce(inputDirection * accelerationForce, ForceMode.Acceleration);
+            rigidbody.AddForce(cameraLookDirection * accelerationForce, ForceMode.Acceleration);
         }
     }
 
@@ -39,7 +46,5 @@ public class RigidbodyController : MonoBehaviour
     {
         input.x = Input.GetAxisRaw("Horizontal");
         input.y = Input.GetAxisRaw("Vertical");
-
-
     }
 }
