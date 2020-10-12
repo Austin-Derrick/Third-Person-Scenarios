@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class ContextualMessageController : MonoBehaviour
 {
     private CanvasGroup canvasGroup;
     private TMP_Text messageText;
+    private float fadeOutDuration = 1;
 
     private void Start()
     {
@@ -24,12 +26,21 @@ public class ContextualMessageController : MonoBehaviour
         messageText.text = message;
 
         yield return new WaitForSeconds(duration);
-
+        // Start fading out
+        float elapsedTime = 0;
+        float fadeStartTime = Time.time;
+        while (elapsedTime < fadeOutDuration)
+        {
+            elapsedTime = Time.time - fadeStartTime;
+            canvasGroup.alpha = 1 - elapsedTime / fadeOutDuration;
+            yield return null;
+        }
         canvasGroup.alpha = 0;
     }
 
     private void OnContextualMessageTriggered(string message, float messageDuration)
     {
+        StopAllCoroutines();
         StartCoroutine(ShowMessage(message, messageDuration));
     }
 
