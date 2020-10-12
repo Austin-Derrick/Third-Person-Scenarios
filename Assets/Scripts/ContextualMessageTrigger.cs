@@ -9,7 +9,10 @@ public class ContextualMessageTrigger : MonoBehaviour
     public static event ContextualMessageTriggeredAction ContextualMessageTriggered;
     */
 
-    [SerializeField] private string message = "Default Message";
+    [SerializeField]
+    [TextArea (3,5)]
+
+    private string message = "Default Message";
     [SerializeField] private float messageDuration = 2.0f;
 
     public static event Action<string, float> ContextualMessageTriggered;
