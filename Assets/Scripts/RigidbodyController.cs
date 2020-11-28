@@ -31,10 +31,8 @@ public class RigidbodyController : MonoBehaviour
         flattenedCameraForward.y = 0;
 
         Quaternion cameraRotation = Quaternion.LookRotation(flattenedCameraForward);
-        
-        Vector3 cameraLookDirection = cameraRotation * inputDirection;
 
-        rigidbody.MoveRotation(cameraRotation);
+        Vector3 cameraLookDirection = cameraRotation * inputDirection;
 
         collider.material = inputDirection.magnitude > 0 ? movingPhysicsMaterial : stoppingPhysicsMaterial;
 
